@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<%- partial('_partials/head') %>
+</head>
+<body>
+<%- partial('_partials/header') %>
+<main class="about-main">
+  <aside class="about-aside">
+    <div>
+      <div class="about-aside__label mono">关于 / ABOUT</div>
+      <div class="about-aside__title"><%= theme.about.title_line1 %><br><%= theme.about.title_line2 %><span class="accent">.</span></div>
+    </div>
+    <p class="about-aside__text">
+      <% theme.about.text.forEach(function (line, i) { %><%= line %><% if (i < theme.about.text.length - 1) { %><br><% } %><% }) %>
+    </p>
+    <div class="about-aside__poem">
+      <div class="about-aside__poem-text"><%= theme.about.poem.lines %></div>
+      <div class="about-aside__poem-author"><%= theme.about.poem.author %></div>
+    </div>
+  </aside>
+  <section class="timeline-section">
+    <div class="timeline-section__heading">
+      <span class="heading-cn">时间线</span>
+      <span class="heading-en">TIMELINE</span>
+    </div>
+    <div class="timeline">
+      <% theme.timeline.forEach(function (item) { %>
+      <div class="timeline__item">
+        <div class="timeline__year"><%= item.year %></div>
+        <div class="timeline__rail">
+          <div class="timeline__dot"></div>
+          <div class="timeline__line"></div>
+        </div>
+        <div class="timeline__body">
+          <div class="timeline__title"><%= item.title %></div>
+          <div class="timeline__desc"><%= item.desc %></div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </section>
+</main>
+<%- partial('_partials/footer') %>
+<script src="<%- url_for('js/theme.js') %>"></script>
+</body>
+</html>

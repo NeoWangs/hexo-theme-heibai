@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<%- partial('_partials/head') %>
+</head>
+<body>
+<%- partial('_partials/header') %>
+<%
+  // Hexo 内置 category 生成器（/categories/:name/）也会走到这个模板，
+  // 它的 page 里只有 category 名字符串，没有自定义 generator 注入的 categoryConfig
+  var catConfig = page.categoryConfig;
+  if (!catConfig) {
+    var catName = String(page.category || '');
+    catConfig = (theme.categories || []).find(function (c) { return c.name === catName; })
+      || { name: catName, en: catName.toUpperCase(), cn: catName, desc: '' };
+  }
+%>
+<main>
+  <section class="list-hero">
+    <div>
+      <div class="list-hero__label mono">分类 / CATEGORY</div>
+      <div class="list-hero__en"><%= catConfig.en %></div>
+    </div>
+    <div class="list-hero__cn"><%= catConfig.cn %></div>
+  </section>
+
+  <div class="tabs">
+    <% theme.categories.forEach(function (cat) { %>
+    <a class="tab<%- cat.name === catConfig.name ? ' is-active' : '' %>" href="<%- url_for('/' + cat.name + '/') %>"><%= cat.name === 'essay' ? cat.cn : cat.en %></a>
+    <% }) %>
+  </div>
+
+  <% var groups = heibai_group_by_year(page.posts); %>
+  <section class="year-groups">
+    <% if (!groups.length) { %>
+    <p class="list-note mono">※ 这个分类暂时还没有文章</p>
+    <% } %>
+    <% groups.forEach(function (group) { %>
+    <div class="year-group">
+      <div class="year-group__label"><%= group.year %></div>
+      <div class="year-group__posts">
+        <% group.posts.forEach(function (post) { %>
+        <a class="post-row" href="<%- url_for(post.path) %>">
+          <span class="post-row__title"><%= post.title %></span>
+          <span class="post-row__tags mono"><% if (post.tags.length) { %>#<%= post.tags.eq(0).name %><% } %></span>
+          <span class="post-row__date mono"><%= date(post.date, 'YYYY.MM.DD') %></span>
+        </a>
+        <% }) %>
+      </div>
+    </div>
+    <% }) %>
+
+    <% if (page.total > 1) { %>
+    <div class="pagination">
+      <% for (var i = 1; i <= page.total; i++) { %>
+        <% if (i === page.current) { %>
+      <span class="is-current"><%= i %></span>
+        <% } else { %>
+      <a href="<%- url_for(page.base + (i === 1 ? '' : 'page/' + i + '/')) %>"><%= i %></a>
+        <% } %>
+      <% } %>
+    </div>
+    <% } %>
+  </section>
+</main>
+<%- partial('_partials/footer') %>
+<script src="<%- url_for('js/theme.js') %>"></script>
+</body>
+</html>

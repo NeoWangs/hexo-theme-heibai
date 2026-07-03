@@ -1,0 +1,38 @@
+<%
+  var cats = theme.categories || [];
+  var currentCatName = (typeof page !== 'undefined' && page.categoryConfig) ? page.categoryConfig.name : null;
+  var markChars = Array.from(String(theme.brand_mark || '开过头印'));
+  var markCols = Math.ceil(Math.sqrt(markChars.length));
+  var markRows = Math.ceil(markChars.length / markCols);
+  var markSize = [20, 15, 11, 8][Math.max(markCols, markRows) - 1] || 8;
+%>
+<header class="site-header">
+  <a class="brand" href="<%- url_for('/') %>">
+    <div class="brand__mark" style="grid-template-columns:repeat(<%= markCols %>,1fr);font-size:<%= markSize %>px;"><% markChars.forEach(function (ch) { %><span><%= ch %></span><% }) %></div>
+    <div class="brand__text">
+      <span class="brand__name">Mr.Drive2Far</span>
+      <span class="brand__slogan"><%= config.subtitle %></span>
+    </div>
+  </a>
+  <nav class="nav">
+    <a class="nav__item<%- is_home() ? ' is-active' : '' %>" href="<%- url_for('/') %>">首页</a>
+    <% cats.forEach(function (cat) { %>
+    <a class="nav__item<%- currentCatName === cat.name ? ' is-active' : '' %>" href="<%- url_for('/' + cat.name + '/') %>"><%= cat.name === 'essay' ? cat.cn : cat.en %></a>
+    <% }) %>
+    <a class="nav__item<%- page.layout === 'about' ? ' is-active' : '' %>" href="<%- url_for('/about/') %>">时间线</a>
+  </nav>
+  <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换主题">
+    <span class="theme-toggle__icon">◐</span>
+    <span class="theme-toggle__text mono" data-theme-text>守黑</span>
+  </button>
+  <button class="nav-burger" type="button" data-nav-burger aria-label="打开菜单">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<div class="nav-drawer" data-nav-drawer>
+  <a href="<%- url_for('/') %>">首页</a>
+  <% cats.forEach(function (cat) { %>
+  <a href="<%- url_for('/' + cat.name + '/') %>"><%= cat.name === 'essay' ? cat.cn : cat.en %></a>
+  <% }) %>
+  <a href="<%- url_for('/about/') %>">时间线</a>
+</div>

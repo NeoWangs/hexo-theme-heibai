@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<%- partial('_partials/head') %>
+</head>
+<body>
+<%- partial('_partials/header') %>
+<main>
+  <section class="hero">
+    <div class="hero__main">
+      <div class="hero__since mono"><%= theme.hero.since %></div>
+      <div>
+        <div class="hero__title"><%= theme.hero.title_line1 %><br><%= theme.hero.title_line2_prefix %><span class="accent">2</span><%= theme.hero.title_line2_suffix %></div>
+        <div class="hero__cn">
+          <span class="hero__cn-name"><%= theme.hero.title_cn %></span>
+          <span class="hero__cn-sub"><%= theme.hero.subtitle %></span>
+        </div>
+      </div>
+      <div class="hero__motto">
+        <span class="hero__motto-bar"></span>
+        <span><%= theme.hero.motto %></span>
+      </div>
+    </div>
+    <div class="hero__poem">
+      <div class="hero__poem-text"><%= theme.hero.poem.lines %></div>
+      <div class="hero__poem-side">
+        <div class="hero__poem-author"><%= theme.hero.poem.author %></div>
+        <div class="hero__seal">印</div>
+      </div>
+    </div>
+  </section>
+
+  <% if (theme.show_ticker) { %>
+  <div class="ticker">
+    <div class="ticker__track">
+      <span class="ticker__item mono">DEVELOPER ※ SCIENTIST ※ ECONOMIC ※ 闲情偶寄 ※ 知其白 守其黑 ※ HEXO 独立博客 ※ SINCE 2011 ※&nbsp;</span>
+      <span class="ticker__item mono">DEVELOPER ※ SCIENTIST ※ ECONOMIC ※ 闲情偶寄 ※ 知其白 守其黑 ※ HEXO 独立博客 ※ SINCE 2011 ※&nbsp;</span>
+    </div>
+  </div>
+  <% } %>
+
+  <section class="categories">
+    <div class="categories__grid">
+      <% theme.categories.forEach(function (cat, i) { %>
+      <a class="category-card" href="<%- url_for('/' + cat.name + '/') %>">
+        <div class="category-card__top">
+          <span class="category-card__num mono"><%= ('0' + (i + 1)).slice(-2) %></span>
+          <span class="category-card__arrow">→</span>
+        </div>
+        <div class="category-card__en"><%= cat.en %></div>
+        <div class="category-card__meta">
+          <span class="category-card__cn"><%= cat.cn %></span>
+          <span class="category-card__desc"><%= cat.desc %></span>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="recent">
+    <div class="recent__heading">
+      <span class="heading-cn">近期</span>
+      <span class="heading-en">RECENT WRITING</span>
+    </div>
+    <div class="recent__list">
+      <% site.posts.sort('-date').limit(3).each(function (post) { %>
+      <a class="recent__item" href="<%- url_for(post.path) %>">
+        <span class="recent__date mono"><%= date(post.date, 'YYYY.MM.DD') %></span>
+        <span class="recent__title"><%= post.title %></span>
+        <span class="recent__tags mono"><% if (post.tags.length) { %>#<%= post.tags.eq(0).name %><% } %></span>
+      </a>
+      <% }) %>
+    </div>
+  </section>
+</main>
+<%- partial('_partials/footer') %>
+<script src="<%- url_for('js/theme.js') %>"></script>
+</body>
+</html>

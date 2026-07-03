@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<%- partial('_partials/head') %>
+</head>
+<body>
+<%- partial('_partials/header') %>
+<main class="article-main">
+  <div class="article-main__aside"><%= theme.article_aside %></div>
+  <article class="article">
+    <% if (page.categories.length) { %>
+    <a class="article__back mono" href="<%- url_for('/' + page.categories.eq(0).name + '/') %>">← <%= page.categories.eq(0).name.toUpperCase() %></a>
+    <% } %>
+    <h1 class="article__title"><%= page.title %></h1>
+    <div class="article__meta mono">
+      <span><%= date(page.date, 'YYYY.MM.DD') %></span>
+      <% page.tags.each(function (tag) { %><span class="accent">#<%= tag.name %></span><% }) %>
+      <span>约 <%= heibai_reading_time(page.content) %> 分钟</span>
+    </div>
+    <div class="article-content"><%- page.content %></div>
+    <div class="article__end">
+      <div class="article__end-mark">完</div>
+    </div>
+  </article>
+
+  <% if (theme.comments && theme.comments.enable) { %>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <div class="comments" id="gitalk-container"></div>
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script>
+  (function () {
+    var param = <%- JSON.stringify(theme.comments) %>;
+    param.admin = [param.admin];
+    param.id = location.pathname;
+    var gitalk = new Gitalk(param);
+    gitalk.render('gitalk-container');
+  })();
+  </script>
+  <% } %>
+</main>
+
+<div class="post-nav">
+  <% if (page.prev) { %>
+  <a class="post-nav__item post-nav__item--prev" href="<%- url_for(page.prev.path) %>">
+    <div class="post-nav__label mono">← 上一篇</div>
+    <div class="post-nav__title"><%= page.prev.title %></div>
+  </a>
+  <% } else { %>
+  <div class="post-nav__item post-nav__item--prev post-nav__item--empty">
+    <div class="post-nav__label mono">← 上一篇</div>
+    <div class="post-nav__title">已是最早一篇</div>
+  </div>
+  <% } %>
+  <% if (page.next) { %>
+  <a class="post-nav__item" href="<%- url_for(page.next.path) %>">
+    <div class="post-nav__label mono">下一篇 →</div>
+    <div class="post-nav__title"><%= page.next.title %></div>
+  </a>
+  <% } else { %>
+  <div class="post-nav__item post-nav__item--empty">
+    <div class="post-nav__label mono">下一篇 →</div>
+    <div class="post-nav__title">已是最新一篇</div>
+  </div>
+  <% } %>
+</div>
+<%- partial('_partials/footer') %>
+<script src="<%- url_for('js/theme.js') %>"></script>
+</body>
+</html>
