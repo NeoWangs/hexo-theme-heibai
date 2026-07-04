@@ -1,7 +1,7 @@
 <%
   var cats = theme.categories || [];
   var currentCatName = (typeof page !== 'undefined' && page.categoryConfig) ? page.categoryConfig.name : null;
-  var markChars = Array.from(String(theme.brand_mark || '开过头印'));
+  var markChars = Array.from(String(theme.brand_mark || 'MR.Bai'));
   var markCols = Math.ceil(Math.sqrt(markChars.length));
   var markRows = Math.ceil(markChars.length / markCols);
   var markSize = [20, 15, 11, 8][Math.max(markCols, markRows) - 1] || 8;
@@ -10,7 +10,7 @@
   <a class="brand" href="<%- url_for('/') %>">
     <div class="brand__mark" style="grid-template-columns:repeat(<%= markCols %>,1fr);font-size:<%= markSize %>px;"><% markChars.forEach(function (ch) { %><span><%= ch %></span><% }) %></div>
     <div class="brand__text">
-      <span class="brand__name">Mr.Drive2Far</span>
+      <span class="brand__name"><%= config.title %></span>
       <span class="brand__slogan"><%= config.subtitle %></span>
     </div>
   </a>

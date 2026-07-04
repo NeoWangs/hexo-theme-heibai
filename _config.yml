@@ -74,6 +74,8 @@ footer:
   links:
     - name: Neo 的数字花园
       url: https://www.neoxmind.com/
+    - name: HeiBai · 黑白双式主题
+      url: https://github.com/NeoWangs/hexo-theme-heibai
     - name: 申请友链
       url: mailto:neoxone2@gmail.com
   social:
