@@ -9,6 +9,8 @@
 中文正文用思源宋体（Noto Serif SC）铺陈书卷气，竖排诗词、朱红印章、
 「完」字落款等细节则来自传统书画的版式语言。
 
+![heibai 主题预览：桌面端与移动端知白/守黑双主题](screenshot/preview.png)
+
 示例网站：[https://cssass.com/](https://cssass.com/)
 
 ## 页面
